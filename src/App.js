@@ -6,8 +6,8 @@ import scorePolishCandidate from "./components/scorePolishCandidate";
 import detectLanguage from "./components/detectLanguage";
 import UniversityHeader from "./components/UniversityHeader";
 
-const DEFAULT_CIPHERTEXT = `epomj ezno yudndve. nuopxuiv diozgdbzixev 
-rkgtrv iv ivnuv xjyudzijnx. vwt 
+const DEFAULT_CIPHERTEXT = `epomj ezno yudndve. nuopxuiv diozgdbzixev
+rkgtrv iv ivnuv xjyudzijnx. vwt
 fiiotipjrvx rturvidz, rtngde fjy uvyvidv 
 iv: epomj. ezno.yudndve@vyzkxd. do`;
 
@@ -19,7 +19,7 @@ function App() {
     return Array.from({ length: 26 }, (_, shift) => {
       const decrypted = caesarShift(cipherText, shift);
       const lang = detectLanguage(decrypted);
-      const score = scorePolishCandidate(decrypted);
+      const score = scorePolishCandidate(decrypted, lang);
       return { shift, decrypted, score, lang };
     }).sort((a, b) => b.score - a.score);
   }, [cipherText]);
@@ -88,9 +88,7 @@ function App() {
                   ))}
                 </select>
               </label>
-              <div className="hint">
-                Wynik detekcji (dla najlepszego): {best.score.toFixed(2)}
-              </div>
+              <div className="hint" />
             </div>
 
             <pre className="pre">{activeText}</pre>

@@ -1,11 +1,11 @@
 import extractEmail from "./extractEmail";
 import detectLanguage from "./detectLanguage";
 
-export default function scorePolishCandidate(text) {
-  const lang = detectLanguage(text);
-  const lower = text.toLowerCase();
+export default function scorePolishCandidate(text, detectedLang) {
+  const lang = detectedLang ?? detectLanguage(text);
+  const lower = String(text ?? "").toLowerCase();
   const tokens = lower
-    .replace(/[^a-z\s]/g, " ")
+    .replace(/[^a-ząćęłńóśźż\s]/gi, " ")
     .split(/\s+/)
     .filter(Boolean);
 
@@ -40,6 +40,34 @@ export default function scorePolishCandidate(text) {
     const w = commonWords.get(token);
     if (w) score += w;
   }
+
+  const letters = lower.match(/[a-ząćęłńóśźż]/gi) ?? [];
+  const vowels = new Set(["a", "e", "i", "o", "u", "y", "ą", "ę", "ó"]);
+  const vowelCount = letters.reduce((acc, c) => acc + (vowels.has(c) ? 1 : 0), 0);
+  const vowelRatio = letters.length ? vowelCount / letters.length : 0;
+
+  let maxConsonantRun = 0;
+  let consonantRun = 0;
+  for (const c of letters) {
+    if (vowels.has(c)) {
+      consonantRun = 0;
+    } else {
+      consonantRun += 1;
+      if (consonantRun > maxConsonantRun) maxConsonantRun = consonantRun;
+    }
+  }
+
+  // Polish plaintext tends to have a healthy vowel ratio and avoids very long consonant runs.
+  if (vowelRatio >= 0.25 && vowelRatio <= 0.55) {
+    const target = 0.38;
+    const spread = 0.18;
+    const closeness = Math.max(0, 1 - Math.abs(vowelRatio - target) / spread);
+    score += closeness * 6.0;
+  } else {
+    score -= 6.0;
+  }
+  if (maxConsonantRun > 6) score -= (maxConsonantRun - 6) * 1.5;
+  if (maxConsonantRun > 12) score -= 10.0;
 
   const bigrams = [
     /rz/g,

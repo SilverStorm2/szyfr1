@@ -9,6 +9,8 @@ Twoim zadaniem jest:
     - biblioteki do detekcji języka lub
     - modelu AI / API wspierającego rozpoznawanie języka.
 
+    (W tej implementacji: fastText przez `fasttext.js` + model `lid.176.bin` / `lid.176.ftz`, uruchamiane z `npm run detect:fasttext`.)
+
 - Na koniec program powinien: 
     - wskazać najbardziej prawdopodobną, poprawnie odszyfrowaną polską wiadomość,
     - wyodrębnić z niej adres e-mail, na który należy wysłać kod z tego zadania.

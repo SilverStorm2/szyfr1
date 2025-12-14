@@ -2,6 +2,13 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## fastText (language detection)
+
+To automatically pick the most likely Polish decryption using Meta fastText language identification:
+
+- Put the model in `models/lid.176.bin` (or `models/lid.176.ftz`), or set `FASTTEXT_MODEL_PATH`.
+- Run `npm run detect:fasttext -- --verbose`.
+
 ## Available Scripts
 
 In the project directory, you can run:

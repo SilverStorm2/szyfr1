@@ -15,7 +15,7 @@ function softmax(scoresByLang) {
 }
 
 function tokenize(text) {
-  return text
+  return String(text ?? "")
     .toLowerCase()
     .replace(/[^a-ząćęłńóśźż\s]/gi, " ")
     .split(/\s+/)
@@ -29,12 +29,12 @@ function countMatches(tokens, set) {
 }
 
 /**
- * Offline language detection "library" (no API).
- * Returns the most likely language among a small set and a confidence.
+ * Lightweight, offline language detection for UI hints.
+ * (The fastText-based detector is implemented as a Node script.)
  */
 export default function detectLanguage(text) {
   const tokens = tokenize(text);
-  const lower = text.toLowerCase();
+  const lower = String(text ?? "").toLowerCase();
 
   const pl = new Set([
     "i",
