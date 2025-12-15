@@ -13,7 +13,7 @@ To automatically pick the most likely Polish decryption using Meta fastText lang
 
 AI-backed language detector (token kept server-side via CRA dev proxy):
 
-- Create `.env.local` (ignored by git) with `API_SZYFR=...` (or `HUGGINGFACE_API_TOKEN=...`)
+- Copy `.env.example` to `.env.local` (ignored by git) and set `API_SZYFR=...` (or `HUGGINGFACE_API_TOKEN=...`)
 - Restart `yarn start` and enable `HuggingFace (API)` in the UI
 
 Notes:
