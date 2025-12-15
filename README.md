@@ -9,6 +9,18 @@ To automatically pick the most likely Polish decryption using Meta fastText lang
 - Put the model in `models/lid.176.bin` (or `models/lid.176.ftz`), or set `FASTTEXT_MODEL_PATH`.
 - Run `npm run detect:fasttext -- --verbose`.
 
+## HuggingFace API (language detection)
+
+AI-backed language detector (token kept server-side via CRA dev proxy):
+
+- Create `.env.local` (ignored by git) with `API_SZYFR=...` (or `HUGGINGFACE_API_TOKEN=...`)
+- Restart `yarn start` and enable `HuggingFace (API)` in the UI
+
+Notes:
+- Endpoint: `POST /api/hf-language-detect` in `src/setupProxy.js`
+- Default model: `papluca/xlm-roberta-base-language-detection`
+- Uses `https://router.huggingface.co/hf-inference` by default; override with `HF_INFERENCE_BASE_URL`
+
 ## Available Scripts
 
 In the project directory, you can run:

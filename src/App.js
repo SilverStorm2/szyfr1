@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import caesarShift from "./components/caesarShift";
 import extractEmail from "./components/extractEmail";
 import scorePolishCandidate from "./components/scorePolishCandidate";
 import detectLanguage from "./components/detectLanguage";
+import detectLanguageHuggingFace from "./components/detectLanguageHuggingFace";
 import UniversityHeader from "./components/UniversityHeader";
 
 const DEFAULT_CIPHERTEXT = `epomj ezno yudndve. nuopxuiv diozgdbzixev
@@ -14,6 +15,10 @@ iv: epomj. ezno.yudndve@vyzkxd. do`;
 function App() {
   const [cipherText, setCipherText] = useState(DEFAULT_CIPHERTEXT);
   const [selectedShift, setSelectedShift] = useState("auto");
+  const [useHuggingFace, setUseHuggingFace] = useState(false);
+  const [hfLang, setHfLang] = useState(null);
+  const [hfError, setHfError] = useState(null);
+  const [hfLoading, setHfLoading] = useState(false);
 
   const candidates = useMemo(() => {
     return Array.from({ length: 26 }, (_, shift) => {
@@ -34,6 +39,32 @@ function App() {
   );
   const activeEmail = useMemo(() => extractEmail(activeText), [activeText]);
   const activeLang = useMemo(() => detectLanguage(activeText), [activeText]);
+
+  useEffect(() => {
+    if (!useHuggingFace) {
+      setHfLang(null);
+      setHfError(null);
+      setHfLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    setHfLoading(true);
+    setHfError(null);
+    detectLanguageHuggingFace(activeText, { signal: controller.signal })
+      .then((result) => {
+        setHfLang(result);
+        setHfLoading(false);
+      })
+      .catch((err) => {
+        if (err?.name === "AbortError") return;
+        setHfLang(null);
+        setHfLoading(false);
+        setHfError(err?.message ?? String(err));
+      });
+
+    return () => controller.abort();
+  }, [activeText, useHuggingFace]);
 
   const byShift = useMemo(() => {
     const map = new Map();
@@ -88,7 +119,14 @@ function App() {
                   ))}
                 </select>
               </label>
-              <div className="hint" />
+              <label className="toggle">
+                <input
+                  type="checkbox"
+                  checked={useHuggingFace}
+                  onChange={(e) => setUseHuggingFace(e.target.checked)}
+                />
+                HuggingFace (API)
+              </label>
             </div>
 
             <pre className="pre">{activeText}</pre>
@@ -107,6 +145,20 @@ function App() {
                   {(activeLang.confidence * 100).toFixed(0)}%)
                 </span>
               </span>
+              {useHuggingFace ? (
+                <span className="pill">
+                  HF język:{" "}
+                  <span className="mono" style={{ marginLeft: 6 }}>
+                    {hfLoading
+                      ? "…"
+                      : hfLang
+                        ? `${hfLang.language ?? "—"} (${Math.round(
+                            (Number(hfLang.confidence ?? 0) || 0) * 100
+                          )}%)`
+                        : `błąd: ${hfError ?? "—"}`}
+                  </span>
+                </span>
+              ) : null}
             </div>
           </section>
 
