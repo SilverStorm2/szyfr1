@@ -140,18 +140,6 @@ body {
   font-size: 14px;
 }
 
-.toggle {
-  display: inline-flex;
-  gap: 6px;
-  align-items: center;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.toggle input {
-  accent-color: var(--uniGold);
-}
-
 .pre {
   margin: 10px 0 0;
   white-space: pre-wrap;
@@ -231,3 +219,4 @@ body {
   font-size: 13px;
   color: rgba(15, 23, 42, 0.74);
 }
+
