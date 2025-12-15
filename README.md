@@ -21,6 +21,15 @@ Notes:
 - Default model: `papluca/xlm-roberta-base-language-detection`
 - Uses `https://router.huggingface.co/hf-inference` by default; override with `HF_INFERENCE_BASE_URL`
 
+## Vercel
+
+Deploy as a static CRA build + serverless API proxy:
+
+- Import repo in Vercel (framework: Create React App / static build)
+- Set env var in Vercel Project Settings → Environment Variables:
+  - `API_SZYFR=...` (or `HUGGINGFACE_API_TOKEN=...`)
+- The API endpoint in production is implemented as a Vercel function: `api/hf-language-detect.js`
+
 ## Available Scripts
 
 In the project directory, you can run:
