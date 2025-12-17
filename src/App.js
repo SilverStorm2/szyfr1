@@ -8,9 +8,9 @@ import detectLanguageHuggingFace from "./components/detectLanguageHuggingFace";
 import UniversityHeader from "./components/UniversityHeader";
 
 const DEFAULT_CIPHERTEXT = `epomj ezno yudndve. nuopxuiv diozgdbzixev
-rkgtrv iv ivnuv xjyudzijnx. vwt
-fiiotipjrvx rturvidz, rtngde fjy uvyvidv 
-iv: epomj. ezno.yudndve@vyzkxd. do`;
+rkgtrv iv ivnuv xjyudziijnx. vwt
+fjiotipjrvx rturvidz, rtngde fjy uvyvidv 
+iv: epomj.ezno.yudndve@vyzkxd.do`;
 
 function App() {
   const [cipherText, setCipherText] = useState(DEFAULT_CIPHERTEXT);
@@ -76,7 +76,9 @@ function App() {
     () =>
       Array.from({ length: 26 }, (_, shift) => {
         const c = byShift.get(shift);
-        return c ?? { shift, decrypted: caesarShift(cipherText, shift), score: 0 };
+        return (
+          c ?? { shift, decrypted: caesarShift(cipherText, shift), score: 0 }
+        );
       }),
     [byShift, cipherText]
   );
@@ -152,10 +154,10 @@ function App() {
                     {hfLoading
                       ? "…"
                       : hfLang
-                        ? `${hfLang.language ?? "—"} (${Math.round(
-                            (Number(hfLang.confidence ?? 0) || 0) * 100
-                          )}%)`
-                        : `błąd: ${hfError ?? "—"}`}
+                      ? `${hfLang.language ?? "—"} (${Math.round(
+                          (Number(hfLang.confidence ?? 0) || 0) * 100
+                        )}%)`
+                      : `błąd: ${hfError ?? "—"}`}
                   </span>
                 </span>
               ) : null}
@@ -170,7 +172,9 @@ function App() {
                 {sortedByShift.map((c) => (
                   <div
                     key={c.shift}
-                    className={`candidate ${c.shift === best.shift ? "candidate--best" : ""}`}
+                    className={`candidate ${
+                      c.shift === best.shift ? "candidate--best" : ""
+                    }`}
                   >
                     <div className="candidate__meta">
                       <button
