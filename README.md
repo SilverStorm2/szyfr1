@@ -29,6 +29,7 @@ Deploy as a static CRA build + serverless API proxy:
 - Set env var in Vercel Project Settings → Environment Variables:
   - `API_SZYFR=...` (or `HUGGINGFACE_API_TOKEN=...`)
 - The API endpoint in production is implemented as a Vercel function: `api/hf-language-detect.js`
+- If you see `HTTP 405` in UI: redeploy after this commit and confirm the request goes to `/api/hf-language-detect` (POST).
 
 ## Available Scripts
 
