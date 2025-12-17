@@ -1,6 +1,28 @@
-# Getting Started with Create React App
+# Szyfr1 — brute-force szyfr Cezara (26 przesunięć)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplikacja webowa (React) do łamania szyfru Cezara metodą brute-force: generuje 26 możliwych odszyfrowań i automatycznie wybiera najbardziej prawdopodobną wiadomość w języku polskim. Dodatkowo wyciąga z odszyfrowanej wiadomości adres e-mail.
+
+## Wymagania zadania
+
+Twoim zadaniem jest:
+
+- Napisać program testujący wszystkie przesunięcia, wykorzystując technikę brute-force, tzn. program powinien:
+  - dla podanego zaszyfrowanego tekstu kolejno zastosować wszystkie możliwe przesunięcia liter w obrębie alfabetu łacińskiego (26 znaków),
+  - dla każdego przesunięcia wygenerować nową wersję tekstu (pozostałe znaki: spacje, przecinek, kropka, dwukropek, `@` pozostają bez zmian),
+  - wypisać wszystkie otrzymane wersje.
+- Następnie program powinien automatycznie wykryć, która z wygenerowanych wersji jest poprawną wiadomością w języku polskim, używając:
+  - biblioteki do detekcji języka lub
+  - modelu AI / API wspierającego rozpoznawanie języka.
+- Na koniec program powinien:
+  - wskazać najbardziej prawdopodobną, poprawnie odszyfrowaną polską wiadomość,
+  - wyodrębnić z niej adres e-mail, na który należy wysłać kod z tego zadania.
+
+## Uruchomienie (yarn)
+
+- `yarn install`
+- `yarn start`
+
+Domyślnie aplikacja startuje w trybie `auto` i sama wybiera najlepsze przesunięcie.
 
 ## fastText (language detection)
 
@@ -30,6 +52,10 @@ Deploy as a static CRA build + serverless API proxy:
   - `API_SZYFR=...` (or `HUGGINGFACE_API_TOKEN=...`)
 - The API endpoint in production is implemented as a Vercel function: `api/hf-language-detect.js`
 - If you see `HTTP 405` in UI: redeploy after this commit and confirm the request goes to `/api/hf-language-detect` (POST).
+
+## Create React App
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
