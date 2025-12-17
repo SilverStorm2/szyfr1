@@ -2,6 +2,14 @@
 
 Aplikacja webowa (React) do łamania szyfru Cezara metodą brute-force: generuje 26 możliwych odszyfrowań i automatycznie wybiera najbardziej prawdopodobną wiadomość w języku polskim. Dodatkowo wyciąga z odszyfrowanej wiadomości adres e-mail.
 
+## Jak spełniam wymagania zadania (w skrócie)
+
+- Brute-force 26 przesunięć: dla wejściowego szyfrogramu generuję wszystkie odszyfrowania dla przesunięć `0..25` (litery A–Z / a–z), a znaki takie jak spacje, kropki, przecinki, dwukropki i `@` pozostają bez zmian.
+- Wypisanie wszystkich wersji: UI pokazuje listę 26 wersji (można je rozwinąć) oraz umożliwia wybór dowolnego przesunięcia.
+- Automatyczne wykrycie poprawnej polskiej wiadomości: tryb `auto` wybiera najlepszy wariant na podstawie wyniku z heurystyki (`detectLanguage` + `scorePolishCandidate`) i/lub z API HuggingFace (opcjonalnie).
+- Ekstrakcja e-mail: z wybranej odszyfrowanej wiadomości wyciągam adres e-mail i wyświetlam go w UI.
+- Wdrożenie: aplikacja działa lokalnie (`yarn start`) oraz w produkcji na Vercel; endpoint do HuggingFace jest realizowany po stronie serwera (funkcja serverless), a token jest trzymany w zmiennych środowiskowych.
+
 ## Wymagania zadania
 
 Twoim zadaniem jest:
